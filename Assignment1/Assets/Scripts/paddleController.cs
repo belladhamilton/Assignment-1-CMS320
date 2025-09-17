@@ -2,35 +2,50 @@ using UnityEngine;
 
 public class PaddleController : MonoBehaviour
 {
+    // How much the paddle moves per frame update
     public float displacement = 0.1f;
-    public string player; // "P1" or "P2"
 
+    // Which player this paddle belongs to ("P1" or "P2")
+    public string player;
+
+    // Reference to the paddle's Rigidbody2D component
     private Rigidbody2D pad;
 
+    // Start is called before the first frame update
     void Start()
     {
+        // Get Rigidbody2D attached to this paddle object
         pad = GetComponent<Rigidbody2D>();
     }
 
+    // Update is called once per frame
     void Update()
     {
-        Vector2 pos = pad.position; // current paddle position
+        // Get the current paddle position
+        Vector2 pos = pad.position;
 
-        if (player == "P1") // Player 1 controls (W/S)
+        // Controls for Player 1 (W and S keys)
+        if (player == "P1")
         {
             if (Input.GetKey(KeyCode.W))
-                pos.y = Mathf.Min(pos.y + displacement, 4.5f); // adjust boundary
+                // Move paddle up, clamp at y = 4.5f
+                pos.y = Mathf.Min(pos.y + displacement, 4.5f);
             else if (Input.GetKey(KeyCode.S))
+                // Move paddle down, clamp at y = -4.5f
                 pos.y = Mathf.Max(pos.y - displacement, -4.5f);
         }
-        else if (player == "P2") // Player 2 controls (Arrow keys)
+        // Controls for Player 2 (Arrow keys)
+        else if (player == "P2")
         {
             if (Input.GetKey(KeyCode.UpArrow))
+                // Move paddle up, clamp at y = 4.5f
                 pos.y = Mathf.Min(pos.y + displacement, 4.5f);
             else if (Input.GetKey(KeyCode.DownArrow))
+                // Move paddle down, clamp at y = -4.5f
                 pos.y = Mathf.Max(pos.y - displacement, -4.5f);
         }
 
+        // Apply the new position to the paddle
         pad.MovePosition(pos);
     }
 }
